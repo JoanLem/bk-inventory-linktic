@@ -3,8 +3,8 @@ package com.example.demo.client;
 import com.example.demo.dto.ProductDTO;
 import com.example.demo.dto.ProductAttributesDTO;
 import com.example.demo.dto.ProductResponseDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -12,9 +12,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.time.Duration;
 
 @Component
+@Slf4j
 public class ProductClient {
     
-    private static final Logger logger = LoggerFactory.getLogger(ProductClient.class);
     
     private final WebClient webClient;
     
@@ -29,8 +29,8 @@ public class ProductClient {
     
     public ProductDTO getProductById(Long productId) {
         try {
-            String url = "/" + productId;
-            logger.info("Consultando producto con ID: {} desde: {}{}", productId, productServiceUrl, url);
+            String url = productServiceUrl + "/" + productId;
+            log.info("Consultando producto con ID: {} desde: {}{}", productId, productServiceUrl, url);
             
             ProductResponseDTO productResponse = webClient
                     .get()
@@ -53,14 +53,14 @@ public class ProductClient {
                 productDTO.setPrice(attributes.getPrice());
                 productDTO.setDescription(attributes.getDescription());
                 
-                logger.info("Producto encontrado: ID={}, Name={}", productDTO.getId(), productDTO.getName());
+                log.info("Producto encontrado: ID={}, Name={}", productDTO.getId(), productDTO.getName());
                 return productDTO;
             } else {
-                logger.warn("Estructura de respuesta inválida o producto no encontrado con ID: {}", productId);
+                log.warn("Estructura de respuesta inválida o producto no encontrado con ID: {}", productId);
                 return null;
             }
         } catch (Exception e) {
-            logger.error("Error al consultar el producto con ID: {}. Error: {}", productId, e.getMessage());
+            log.error("Error al consultar el producto con ID: {}. Error: {}", productId, e.getMessage());
             return null;
         }
     }

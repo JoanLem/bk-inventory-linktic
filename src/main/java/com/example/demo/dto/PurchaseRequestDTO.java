@@ -10,16 +10,16 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Request DTO para actualizar la cantidad de inventario de un producto")
-public class UpdateInventoryRequestDTO {
-	
+@Schema(description = "Request DTO para realizar una compra de producto")
+public class PurchaseRequestDTO {
+    
     @NotNull(message = "El ID del producto es obligatorio")
     @Schema(description = "ID del producto a comprar", example = "1")
     private Long productId;
     
     @NotNull(message = "La cantidad es obligatoria")
-    @Min(value = 0, message = "La cantidad no puede ser negativa")
-    @Schema(description = "Nueva cantidad disponible del producto", example = "100")
-    private Integer quantity;
+    @Min(value = 1, message = "La cantidad debe ser mayor a 0")
+    @Schema(description = "Cantidad de productos a comprar", example = "5")
+    private int quantity;
 }
 
