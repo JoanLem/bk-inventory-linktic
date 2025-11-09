@@ -1,10 +1,10 @@
 package com.example.demo.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.PurchaseRequestDTO;
 import com.example.demo.dto.PurchaseResponseDTO;
@@ -19,7 +19,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
-@Controller
+@RestController
 @RequestMapping("/api/v1/orders")
 @Tag(name = "Purchase Management", description = "API para gestión de las ordenes de ventas")
 public class OrdersControllerV1 {
