@@ -142,16 +142,12 @@ class InventoryControllerV1Test {
         request.setProductId(productId);
         request.setQuantity(-10);
 
-        when(inventoryService.updateProductQuantity(eq(productId), eq(-10)))
-                .thenThrow(new IllegalArgumentException("La cantidad no puede ser negativa"));
-
         // When & Then
         mockMvc.perform(put("/api/v1/inventory/products")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
-
-        verify(inventoryService, times(1)).updateProductQuantity(eq(productId), eq(-10));
+        verify(inventoryService, never()).updateProductQuantity(anyLong(), anyInt());
     }
 
     @Test
