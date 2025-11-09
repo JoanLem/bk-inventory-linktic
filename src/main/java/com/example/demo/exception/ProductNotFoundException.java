@@ -1,0 +1,18 @@
+package com.example.demo.exception;
+
+public class ProductNotFoundException extends RuntimeException {
+    
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public ProductNotFoundException(String message) {
+        super(message);
+    }
+    
+    public ProductNotFoundException(Long productId) {
+        super("Producto no encontrado con ID: " + productId);
+    }
+}
+

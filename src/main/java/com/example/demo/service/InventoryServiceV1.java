@@ -41,12 +41,8 @@ public class InventoryServiceV1 {
         log.info("Consultando cantidad disponible para producto ID: {}", productId);
         
         // Obtener información del producto desde el microservicio
+        // Si el producto no existe, ProductClient lanzará ProductNotFoundException (404)
         ProductDTO product = productClient.getProductById(productId);
-        
-        if (product == null) {
-            log.warn("Producto con ID {} no encontrado en el microservicio de productos", productId);
-            throw new RuntimeException("Producto no encontrado con ID: " + productId);
-        }
         
         // Buscar el inventario del producto
         Optional<InventoryModel> inventoryOpt = inventoryRepo.findByProductId(productId);
@@ -81,6 +77,13 @@ public class InventoryServiceV1 {
         InventoryModel inventory;
         Integer previousQuantity = 0;
         String operationType;
+        
+        //Obtener información del producto desde el microservicio
+        ProductDTO product = productClient.getProductById(productId);
+        if (product == null) {
+            log.warn("Producto con ID {} no encontrado", productId);
+            throw new RuntimeException("Producto no encontrado con ID: " + productId);
+        }
         
         if (inventoryOpt.isPresent()) {
             inventory = inventoryOpt.get();
