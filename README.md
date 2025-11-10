@@ -259,6 +259,31 @@ src/main/java/com/example/demo/
 4. **Model Layer**: Entidades JPA que representan las tablas de la base de datos
 5. **Client Layer**: Comunicación con microservicios externos
 
+## 📊 Flujo de Comunicación
+
+┌─────────────────┐                    ┌──────────────────┐
+│  bk-inventory   │                    │  Product Service │
+│   (Cliente)     │                    │    (Servidor)    │
+└────────┬────────┘                    └────────┬─────────┘
+         │                                      │
+         │  GET /api/v1/products/1              │
+         │  Headers:                            │
+         │    X-API-Key: inventory-...-12345    │
+         ├─────────────────────────────────────>│
+         │                                      │
+         │                                      │ Validar API Key
+         │                                      │
+         │  ✅ 200 OK +ProductDTO              │
+         │<─────────────────────────────────────┤
+         │                                      │
+         │  (Si error 5xx o timeout)            │
+         │  ┌────────────────────────────────┐  │
+         │  │ Retry con backoff exponencial  │  │
+         │  │ Intento 1: 500ms               │  │
+         │  │ Intento 2: 1000ms              │  │
+         │  │ Intento 3: 2000ms              │  │
+         │  └────────────────────────────────┘  │
+
 ### Flujo de una Compra
 
 1. Cliente envía request con `productId` y `quantity`
