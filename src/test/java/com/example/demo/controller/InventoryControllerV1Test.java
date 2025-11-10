@@ -31,7 +31,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration.class
         })
 @TestPropertySource(properties = {
-        "product.service.url=http://localhost:8080/api/v1/products"
+        "product.service.url=http://localhost:8080/api/v1/products",
+        "product.service.api-key=test-api-key",
+        "product.service.timeout-seconds=10"
 })
 @DisplayName("Tests para InventoryControllerV1")
 class InventoryControllerV1Test {
